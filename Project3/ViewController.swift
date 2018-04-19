@@ -49,7 +49,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     var latitude:Double = 0
     var longitude:Double = 0
    // private var data: [String] = []
-    private var latlonArr: [String] = [] //array of the combined latlon strings
+    private var latlonArr: [String] = [] ?? ["Start"]//array of the combined latlon strings
     
     
     override func viewDidLoad() {
@@ -76,8 +76,8 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBAction func enterLatLonPressed(_ sender: UIButton) {
         //process the lat and lon
         latlonString = getLatLon() //string
-//        latitude = getLat()
-//        longitude = getLon()
+        latitude = getLat()
+        longitude = getLon()
 //        latlonArr.append(getLatLon())
         setUpData(point: latlonString!)//prints the whole thing again?
         latlonArr.append(latlonString!)
@@ -209,7 +209,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         do{
             let result = try mapPointContext.fetch(myRequest)
             for data in result as! [NSManagedObject]{ //cast as an array (for saving into rows)
-               let theMapPoint = data.value(forKey: "latlon") as! String //must cast object to String (or Int if needed)
+                let theMapPoint = data.value(forKey: "latlon") as? String ?? "Empty"//must cast object to String (or Int if needed)
                 //the map point contains ALL the data values in core data
                 print("fetch values and put them in a string array")
                 latlonArr.append(theMapPoint)
